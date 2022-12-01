@@ -27,7 +27,7 @@ public class Paziente {
 	private String codiceFiscale;
 	@Column(name = "dataRegistrazione")
 	private Date dataRegistrazione;
-	
+
 	public Paziente() {
 	}
 

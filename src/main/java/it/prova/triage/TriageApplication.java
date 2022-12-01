@@ -19,14 +19,14 @@ import it.prova.triage.service.UtenteService;
 
 @SpringBootApplication
 public class TriageApplication implements CommandLineRunner {
-	
+
 	private static final Logger LOGGER = LogManager.getLogger(TriageApplication.class);
 
 	@Autowired
 	private RuoloService ruoloServiceInstance;
 	@Autowired
 	private UtenteService utenteServiceInstance;
-	
+
 	@Autowired
 	private PazienteService pazienteService;
 
@@ -84,12 +84,16 @@ public class TriageApplication implements CommandLineRunner {
 			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(classicUser2.getId());
 		}
-		
-		pazienteService.inserisciNuovo(new Paziente("Mario", "Rossi", "MARROSS78P13H501F", new SimpleDateFormat("dd/MM/yyyy").parse("13/12/1978")));
-		pazienteService.inserisciNuovo(new Paziente("Peppe", "Bianchi","PPPBBB58P13H501F", new SimpleDateFormat("dd/MM/yyyy").parse("01/10/1958")));
-		pazienteService.inserisciNuovo(new Paziente("Antonio", "Marrone", "ANTMAR88P13H501F", new SimpleDateFormat("dd/MM/yyyy").parse("22/02/1988")));
-		pazienteService.inserisciNuovo(new Paziente("Ottavio", "Malta", "OTTMAL62P13H501F", new SimpleDateFormat("dd/MM/yyyy").parse("11/04/1962")));
-		
+
+		pazienteService.inserisciNuovo(new Paziente("Mario", "Rossi", "MARROSS78P13H501F",
+				new SimpleDateFormat("dd/MM/yyyy").parse("13/12/1978")));
+		pazienteService.inserisciNuovo(new Paziente("Peppe", "Bianchi", "PPPBBB58P13H501F",
+				new SimpleDateFormat("dd/MM/yyyy").parse("01/10/1958")));
+		pazienteService.inserisciNuovo(new Paziente("Antonio", "Marrone", "ANTMAR88P13H501F",
+				new SimpleDateFormat("dd/MM/yyyy").parse("22/02/1988")));
+		pazienteService.inserisciNuovo(new Paziente("Ottavio", "Malta", "OTTMAL62P13H501F",
+				new SimpleDateFormat("dd/MM/yyyy").parse("11/04/1962")));
+
 		LOGGER.info("...Elenco tutti......");
 		pazienteService.listAllElements().forEach(d -> LOGGER.info(d.getCodiceFiscale()));
 		LOGGER.info("...fine......");

@@ -45,7 +45,7 @@ public class Utente {
 
 	public Utente() {
 	}
-	
+
 	public Utente(String username, String password) {
 		super();
 		this.username = username;
@@ -59,8 +59,8 @@ public class Utente {
 		this.dataRegistrazione = dataRegistrazione;
 	}
 
-	public Utente(Long id, String username, String password, String nome, String cognome,
-			Date dateCreated, StatoUtente stato, Integer esperienzaAccumulata, Integer creditoAccumulato) {
+	public Utente(Long id, String username, String password, String nome, String cognome, Date dateCreated,
+			StatoUtente stato) {
 		this(username, password, nome, cognome, dateCreated);
 		this.id = id;
 		this.stato = stato;
@@ -129,7 +129,7 @@ public class Utente {
 	public void setRuoli(Set<Ruolo> ruoli) {
 		this.ruoli = ruoli;
 	}
-	
+
 	public boolean isAdmin() {
 		for (Ruolo ruoloItem : ruoli) {
 			if (ruoloItem.getCodice().equals(Ruolo.ROLE_ADMIN))
