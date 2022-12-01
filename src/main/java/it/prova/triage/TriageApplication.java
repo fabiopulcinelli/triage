@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import it.prova.triage.model.Paziente;
 import it.prova.triage.model.Ruolo;
+import it.prova.triage.model.StatoPaziente;
 import it.prova.triage.model.Utente;
 import it.prova.triage.service.PazienteService;
 import it.prova.triage.service.RuoloService;
@@ -86,13 +87,13 @@ public class TriageApplication implements CommandLineRunner {
 		}
 
 		pazienteService.inserisciNuovo(new Paziente("Mario", "Rossi", "MARROSS78P13H501F",
-				new SimpleDateFormat("dd/MM/yyyy").parse("13/12/1978")));
+				new SimpleDateFormat("dd/MM/yyyy").parse("13/12/1978"), StatoPaziente.IN_ATTESA_VISITA));
 		pazienteService.inserisciNuovo(new Paziente("Peppe", "Bianchi", "PPPBBB58P13H501F",
-				new SimpleDateFormat("dd/MM/yyyy").parse("01/10/1958")));
+				new SimpleDateFormat("dd/MM/yyyy").parse("01/10/1958"), StatoPaziente.IN_VISITA));
 		pazienteService.inserisciNuovo(new Paziente("Antonio", "Marrone", "ANTMAR88P13H501F",
-				new SimpleDateFormat("dd/MM/yyyy").parse("22/02/1988")));
+				new SimpleDateFormat("dd/MM/yyyy").parse("22/02/1988"), StatoPaziente.RICOVERATO));
 		pazienteService.inserisciNuovo(new Paziente("Ottavio", "Malta", "OTTMAL62P13H501F",
-				new SimpleDateFormat("dd/MM/yyyy").parse("11/04/1962")));
+				new SimpleDateFormat("dd/MM/yyyy").parse("11/04/1962"), StatoPaziente.DIMESSO));
 
 		LOGGER.info("...Elenco tutti......");
 		pazienteService.listAllElements().forEach(d -> LOGGER.info(d.getCodiceFiscale()));

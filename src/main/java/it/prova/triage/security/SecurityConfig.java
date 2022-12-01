@@ -45,7 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeHttpRequests().antMatchers("/api/auth/login").permitAll().antMatchers("/h2-console/**")
 				.permitAll()
 				// tutti gli utenti autenticati possono richiedere le info
-				.antMatchers("/api/utente/userInfo").authenticated().antMatchers("/api/utente/**").hasRole("ADMIN")
+				.antMatchers("/api/utente/userInfo").authenticated()
+				.antMatchers("/api/utente/**").hasRole("ADMIN")
 				.antMatchers("/**").hasAnyRole("ADMIN", "SUB_OPERATOR")
 				// .antMatchers("/anonymous*").anonymous()
 				.anyRequest().authenticated().and()
