@@ -1,7 +1,6 @@
 package it.prova.triage.web.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,10 +13,9 @@ import it.prova.triage.dto.DottoreRequestDTO;
 import it.prova.triage.dto.DottoreResponseDTO;
 import it.prova.triage.dto.PazienteDTO;
 import it.prova.triage.model.Paziente;
+import it.prova.triage.model.StatoPaziente;
 import it.prova.triage.service.PazienteService;
-import it.prova.triage.web.api.exception.DottoreImpegnatoException;
 import it.prova.triage.web.api.exception.DottoreNotFoundException;
-import it.prova.triage.web.api.exception.DottoreNotInServizioException;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -48,10 +46,11 @@ public class assegnaPazienteController {
 		PazienteDTO paziente = PazienteDTO.buildPazienteDTOFromModel(service.findByCodiceFiscale(doc.getCodiceFiscale()));
 		paziente.setCodiceDottore(doc.getCodiceDottore());
 		
-		System.out.println(dottore.getCodiceDottore() + " " + dottore.getNome());
-		
 		DottoreResponseDTO test = new DottoreResponseDTO(dottore.getCodiceDottore(), doc.getCodiceFiscale());
-		webClient.put().uri("/impostaInVisita").body(Mono.just(test), DottoreResponseDTO.class).retrieve().toEntity(DottoreResponseDTO.class).block();	
-		return paziente;
+		webClient.put().uri("/impostaInVisita").body(Mono.just(test), DottoreResponseDTO.class).retrieve().toEntity(DottoreResponseDTO.class).block();
+		
+		paziente.setStato(StatoPaziente.IN_VISITA);
+		Paziente pazienteInstance = service.aggiorna(paziente.buildPazienteModel());
+		return PazienteDTO.buildPazienteDTOFromModel(pazienteInstance);
 	}
 }
