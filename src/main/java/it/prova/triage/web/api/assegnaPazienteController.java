@@ -1,6 +1,7 @@
 package it.prova.triage.web.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +48,10 @@ public class assegnaPazienteController {
 		paziente.setCodiceDottore(doc.getCodiceDottore());
 		
 		DottoreResponseDTO test = new DottoreResponseDTO(dottore.getCodiceDottore(), doc.getCodiceFiscale());
-		webClient.put().uri("/impostaInVisita").body(Mono.just(test), DottoreResponseDTO.class).retrieve().toEntity(DottoreResponseDTO.class).block();
+		webClient.put().uri("/impostaInVisita").body(Mono.just(test), DottoreResponseDTO.class).retrieve()
+		.onStatus(HttpStatus.INTERNAL_SERVER_ERROR::equals,
+			    response -> response.bodyToMono(String.class).map(DottoreNotFoundException::new))
+		.toEntity(DottoreResponseDTO.class).block();
 		
 		paziente.setStato(StatoPaziente.IN_VISITA);
 		Paziente pazienteInstance = service.aggiorna(paziente.buildPazienteModel());

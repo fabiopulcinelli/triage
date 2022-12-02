@@ -127,7 +127,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return new ResponseEntity<>(body, HttpStatus.METHOD_NOT_ALLOWED);
 	}
-	
+
 	@ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handle(Exception ex, 
                 HttpServletRequest request, HttpServletResponse response) {
@@ -141,4 +141,5 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+ 
 }
