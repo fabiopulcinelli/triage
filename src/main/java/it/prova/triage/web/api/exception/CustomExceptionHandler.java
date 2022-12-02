@@ -90,4 +90,37 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return new ResponseEntity<>(body, HttpStatus.METHOD_NOT_ALLOWED);
 	}
+
+	@ExceptionHandler(DottoreNotFoundException.class)
+	public ResponseEntity<Object> handleDottoreNotFoundException(DottoreNotFoundException ex, WebRequest request) {
+
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.NOT_FOUND);
+
+		return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(DottoreNotInServizioException.class)
+	public ResponseEntity<Object> handleDottoreNotInServizioException(DottoreNotInServizioException ex, WebRequest request) {
+
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.METHOD_NOT_ALLOWED);
+
+		return new ResponseEntity<>(body, HttpStatus.METHOD_NOT_ALLOWED);
+	}
+
+	@ExceptionHandler(DottoreImpegnatoException.class)
+	public ResponseEntity<Object> handleDottoreImpegnatoException(DottoreImpegnatoException ex, WebRequest request) {
+
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.METHOD_NOT_ALLOWED);
+
+		return new ResponseEntity<>(body, HttpStatus.METHOD_NOT_ALLOWED);
+	}
 }
