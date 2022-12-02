@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
@@ -123,4 +127,18 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return new ResponseEntity<>(body, HttpStatus.METHOD_NOT_ALLOWED);
 	}
+	
+	@ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handle(Exception ex, 
+                HttpServletRequest request, HttpServletResponse response) {
+        if (ex instanceof WebClientResponseException) {
+        	Map<String, Object> body = new LinkedHashMap<>();
+    		body.put("timestamp", LocalDateTime.now());
+    		body.put("message", "ECCEZIONE LANCIATA DA DOTTORE");
+    		body.put("status", HttpStatus.METHOD_NOT_ALLOWED);
+        	
+            return new ResponseEntity<>(body, HttpStatus.METHOD_NOT_ALLOWED);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
 }
