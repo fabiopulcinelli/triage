@@ -79,4 +79,28 @@ public class PazienteController {
 
 		pazienteService.rimuovi(pazienteService.caricaSingoloElemento(id));
 	}
+	
+	@PutMapping("/ricovera/{id}")
+	public PazienteDTO ricovera(@PathVariable(required = true) Long id) {
+		Paziente paziente = pazienteService.caricaSingoloElemento(id);
+
+		if (paziente == null)
+			throw new PazienteNotFoundException("Paziente not found con id: " + id);
+
+		paziente.setStato(StatoPaziente.RICOVERATO);
+		Paziente pazienteAggiornato = pazienteService.aggiorna(paziente);
+		return PazienteDTO.buildPazienteDTOFromModel(pazienteAggiornato);
+	}
+	
+	@PutMapping("/dimetti/{id}")
+	public PazienteDTO dimetti(@PathVariable(required = true) Long id) {
+		Paziente paziente = pazienteService.caricaSingoloElemento(id);
+
+		if (paziente == null)
+			throw new PazienteNotFoundException("Paziente not found con id: " + id);
+
+		paziente.setStato(StatoPaziente.DIMESSO);
+		Paziente pazienteAggiornato = pazienteService.aggiorna(paziente);
+		return PazienteDTO.buildPazienteDTOFromModel(pazienteAggiornato);
+	}
 }
